@@ -1,9 +1,35 @@
 #!/usr/bin/node
-
+// in the src dir use 'nodemon index.ts' to avoid errors with just using node..
+// would need to set type: "module" in package.json to allow use of import es6 normally.
 import http from 'http';
 import fs from 'fs'
-
+import express from 'express'
 const port = 8080;
+const app = express();
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+
+app.get('/about', (req, res) => {
+    res.sendFile(__dirname + '/about.html');
+});
+
+app.get('/contact-me', (req, res) => {
+    res.sendFile(__dirname + '/contact-me.html');
+});
+
+app.get('*', (req, res) => {
+    res.status(404).sendFile(__dirname + '/404.html');
+});
+
+
+app.listen(port, () => {
+    console.log(`listening on port: ${port}!`);
+});
+
+
+/*
 const server = http.createServer((req, res) => {
     if(req.url === '/') {
         fs.readFile(__dirname + '/index.html', (err, data) => {
@@ -46,3 +72,4 @@ const server = http.createServer((req, res) => {
         })
     }
 }).listen(8080);
+*/
